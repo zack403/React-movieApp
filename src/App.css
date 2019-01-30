@@ -6,7 +6,13 @@
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
 }
+.dark {
+  color: green;
+}
 
+.light {
+  color : lightgray;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
