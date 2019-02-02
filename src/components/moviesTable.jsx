@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Likes from './common/likes';
-import TableHeader from './common/tableHeader';
-import TableBody from './common/tableBody';
+import Table from './common/table';
+
 
 
 class MoviesTable extends Component {
@@ -21,12 +21,20 @@ class MoviesTable extends Component {
     ]
 
     render() { 
-        const {movies, onLike, onDelete, onSort, sortColumn } = this.props;
+        const {movies, onSort, sortColumn } = this.props;
         return (  
-            <table className="table">
-            <TableHeader columns = {this.columns} 
-            onSort={onSort} sortColumn={sortColumn} />
-                    {/* <thead className="thead">
+            <Table 
+            columns={this.columns} 
+            data={movies} 
+            sortColumn={sortColumn} 
+            onSort={onSort} />
+        );
+    }
+}
+  
+export default MoviesTable;
+
+ {/* <thead className="thead">
                         <tr>
                         <th style={{cursor: 'pointer'}} onClick={() => this.raiseSort('title')}>Title</th>
                         <th style={{cursor: 'pointer'}} onClick={() => this.raiseSort('genre.name')}>Genre</th>
@@ -37,7 +45,8 @@ class MoviesTable extends Component {
                         </tr>
                     </thead> */}
 
-                    <TableBody columns={this.columns} data={movies} />
+
+
                     {/* <tbody>
                         {movies.map(movie => (
                              <tr key={movie._id}>
@@ -55,9 +64,3 @@ class MoviesTable extends Component {
                         ))}
                        
                     </tbody> */}
-                </table>
-        );
-    }
-}
-  
-export default MoviesTable;
