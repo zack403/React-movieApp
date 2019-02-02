@@ -1,12 +1,39 @@
 import React, { Component } from 'react';
 import {getMovies} from "../services/fakeMovieService";
-import Likes from './common/likes';
+import {getGenres} from "../services/fakeGenreService";
+import Pagination from './common/pagination';
+import {paginate} from "../utils/paginate";
+import Genres from './genre';
+import MoviesTable from './moviesTable';
+import _ from "lodash";
 
 class Movies extends Component {
     state = { 
-        movies : getMovies(),
+        movies : [],
+        genres : [],
+        pageSize  : 4,
+        currentPage: 1,
+        selectedGenre: '',
+        sortColumn : {path : "title", order : 'asc'}
      }
 
+
+     componentDidMount() {
+        const genres = [{_id: '',name: 'All Genres'}, ...getGenres()];
+         this.setState({movies : getMovies(), genres : genres });
+     }
+
+     handleSort = sortColumn => {
+         this.setState({sortColumn})
+     }
+
+     handleGenreSelect = genre => {
+         this.setState({selectedGenre: genre, currentPage : 1});
+     }
+
+     handlePageChange = page => {
+         this.setState({currentPage : page});
+     }
 
      handleDelete = (movie) => {
         const movies = this.state.movies.filter(m => m._id !== movie._id);
@@ -24,39 +51,42 @@ class Movies extends Component {
 
     render() { 
         const {length: count} = this.state.movies;
-        if(count === 0) return <p>There are no movies</p>
+        const {movies : allMovies, selectedGenre, currentPage, pageSize, sortColumn} =  this.state;
+        if(count === 0) return <p className="text-danger">There are no movies</p>
+
+        //filtering , Sorting and then paginate the data.....
+        const filtered = selectedGenre && selectedGenre._id ? 
+        allMovies.filter(m => m.genre._id === selectedGenre._id) 
+        : allMovies;
+
+        //sorting to implement sorting we use loadash
+        const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+
+        const movies = paginate(sorted, currentPage, pageSize);
+
         return ( 
             <React.Fragment>
-            <h1>there are {count} movies</h1>
-            <table className="table">
-                <thead className="thead-dark">
-                    <tr>
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Stock</th>
-                    <th>Rate</th>
-                    <th>Likes</th>
-                    <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.movies.map(movie => (
-                         <tr key={movie._id}>
-                         <td>{movie.title}</td>
-                         <td>{movie.genre.name}</td>
-                         <td>{movie.numberInStock}</td>
-                         <td>{movie.dailyRentalRate}</td>
-                         <td> <Likes liked={movie.liked} onLike={() => this.handleLikes(movie)}/> </td>
+            <div className="row">
+                <div className="col-3">
+                <Genres items={this.state.genres} selectedItem={this.state.selectedGenre} onItemSelected={this.handleGenreSelect}/>
+                </div>
+            <div className="col">
+            <p className="text-success">There are {filtered.length} movies</p>
+            <MoviesTable 
+            movies={this.state.movies} 
+            sortColumn={sortColumn}
+            onLike={this.handleLikes} 
+            onDelete={this.handleDelete}
+            onSort={this.handleSort} />
 
-                         <td>
-                             <button onClick={() => this.handleDelete(movie)} className="btn btn-danger"> <i className="fa fa-trash"></i>Delete</button>
-                         </td>
-
-                         </tr>
-                    ))}
-                   
-                </tbody>
-            </table>
+            <Pagination 
+            itemCount={filtered.length} 
+            pageSize={pageSize} 
+            pageChange={this.handlePageChange}
+            currentPage={currentPage}/>
+            </div> 
+        </div>
             </React.Fragment>
             );
     }
