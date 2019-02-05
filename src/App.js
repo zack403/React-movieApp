@@ -6,9 +6,15 @@ import Customers from './components/customers';
 import Rentals from './components/rentals';
 import './App.css';
 import Notfound from './components/not-found';
+import MovieForm from './components/movieform';
 
 
 class App extends Component {
+
+  state = {
+    user : "save"
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -17,12 +23,14 @@ class App extends Component {
       <Switch>
         {/* passing additional props to route component */}
       {/* <Route path="/movies" render={(props) => <Movies sortBy={newest} {...props}/>}  />  */}
+      <Route path="/movies/:id" component={MovieForm} />
       <Route path="/movies" component={Movies} /> 
-      <Route path="/customers" component={Customers} /> 
+      <Route path="/customers" render={(props) => <Customers {...props} user={this.state.user} />} /> 
       <Route path="/rentals" component={Rentals} /> 
+      <Redirect from="/" exact to="/movies" />
+
       <Route to="/not-found" component={Notfound}/>
       {/* <Route path="/" component={Movies} />  */}
-      <Redirect from="/" exact to="/movies" />
       <Redirect to="not-found" />
 
 
