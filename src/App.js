@@ -7,6 +7,8 @@ import Rentals from './components/rentals';
 import './App.css';
 import Notfound from './components/not-found';
 import MovieForm from './components/movieform';
+import LoginForm from './components/loginForm';
+import RegisterForm from './components/registerForm';
 
 
 class App extends Component {
@@ -23,6 +25,8 @@ class App extends Component {
       <Switch>
         {/* passing additional props to route component */}
       {/* <Route path="/movies" render={(props) => <Movies sortBy={newest} {...props}/>}  />  */}
+      <Route path="/register" component={RegisterForm} />
+      <Route path="/login" component={LoginForm} />
       <Route path="/movies/:id" component={MovieForm} />
       <Route path="/movies" component={Movies} /> 
       <Route path="/customers" render={(props) => <Customers {...props} user={this.state.user} />} /> 
