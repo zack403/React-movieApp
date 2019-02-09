@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+
 const InputLogic = ({name, label, handleChange,error, ...rest}) => {
 
     //here use the rest operator(...rest) to initialize the type , value and name prop since they are the same 
@@ -15,6 +16,8 @@ const InputLogic = ({name, label, handleChange,error, ...rest}) => {
             id={name} 
             className="form-control"/>
             { error && <div className="alert alert-danger">{error}</div>}
+
+        
         </div>
      );
 }

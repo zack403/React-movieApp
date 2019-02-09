@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Joi from  "joi-browser";
+import Form from './form';
 
-class RegisterForm extends Component {
+class RegisterForm extends Form {
     state = { 
         data: {email: '', password: '', name: ''} ,
         errors : {}
@@ -14,6 +15,14 @@ class RegisterForm extends Component {
         name: Joi.string().required().label('Name')
      }
 
+
+     doSubmit = () => {
+        //call the server
+        console.log("submitted");
+
+    }
+
+
     render() { 
         return ( 
             <div>
@@ -21,7 +30,7 @@ class RegisterForm extends Component {
                     <form onSubmit={this.handleSubmit}>
                     {this.renderInput('email', 'Email', 'email')}
                     {this.renderInput('password', 'Password', 'password')}
-                    {this.renderInput('name', 'Password')}
+                    {this.renderInput('name', 'Name')}
 
 
                     {this.renderButton('Register')}

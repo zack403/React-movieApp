@@ -6,6 +6,7 @@ import {paginate} from "../utils/paginate";
 import Genres from './genre';
 import MoviesTable from './moviesTable';
 import _ from "lodash";
+import {Link} from "react-router-dom";
 
 class Movies extends Component {
     state = { 
@@ -72,6 +73,9 @@ class Movies extends Component {
                 <Genres items={this.state.genres} selectedItem={this.state.selectedGenre} onItemSelected={this.handleGenreSelect}/>
                 </div>
             <div className="col">
+            <Link to="/movies/new" className="btn btn-primary">
+            New Movie
+            </Link>
             <p className="text-success">There are {filtered.length} movies</p>
             <MoviesTable 
             movies={this.state.movies} 

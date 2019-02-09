@@ -6,9 +6,13 @@ import Customers from './components/customers';
 import Rentals from './components/rentals';
 import './App.css';
 import Notfound from './components/not-found';
-import MovieForm from './components/movieform';
+import MovieForm from './components/movieForm';
 import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 
 class App extends Component {
@@ -21,6 +25,7 @@ class App extends Component {
     return (
       <React.Fragment>
       <Navbar/>
+      <ToastContainer />
       <main className="container">
       <Switch>
         {/* passing additional props to route component */}
@@ -29,6 +34,7 @@ class App extends Component {
       <Route path="/login" component={LoginForm} />
       <Route path="/movies/:id" component={MovieForm} />
       <Route path="/movies" component={Movies} /> 
+      {/* <Route path="/movies/new" component={MovieForm} />  */}
       <Route path="/customers" render={(props) => <Customers {...props} user={this.state.user} />} /> 
       <Route path="/rentals" component={Rentals} /> 
       <Redirect from="/" exact to="/movies" />
