@@ -1,3 +1,7 @@
+import http from "./httpService";
+import {apiUrl} from "../config.json";
+
+
 export const genres = [
     { _id: "5b21ca3eeb7f6fbccd471818", name: "Action" },
     { _id: "5b21ca3eeb7f6fbccd471814", name: "Comedy" },
@@ -5,6 +9,7 @@ export const genres = [
   ];
   
   export function getGenres() {
+    return http.get(apiUrl + "api/movies")
     return genres.filter(g => g);
   }
   
